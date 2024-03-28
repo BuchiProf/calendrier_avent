@@ -1,0 +1,4 @@
+Notre projet est un calendrier de l’avent, avec les boutons des 24 jours, 
+ensuite quand on clique sur un bouton on peut  atterrir sur un mini jeux à faire.
+Pour le moment il n’y a que 9 jeux:
+Un Duck Hunt, pendu, démineur, pyBros, ovnis, Pac-Man, Flappy, Morpy et un Snake.  

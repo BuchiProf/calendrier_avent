@@ -1,0 +1,4 @@
+Bibliothèques Python à installer :
+Flask==2.2.2
+pyxel==1.9.18
+
