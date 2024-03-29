@@ -30,15 +30,20 @@ class Jeu:
 					self.score += 1
 
 	def update(self):
-		
 		if pyxel.btnp(pyxel.KEY_ESCAPE):
 			pyxel.quit()
-		# creation des ennemis
-		self.canard()
-		# mise a jour des positions des ennemis
-		self.canard_bouge()
-		self.tir()
-		self.draw()
+		if self.vies > 0:
+			# creation des ennemis
+			self.canard()
+			# mise a jour des positions des ennemis
+			self.canard_bouge()
+			self.tir()
+			self.draw()
+		else:
+			if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+				self.vies = 3
+				self.coincoin = []
+				self.score = 0
 	def draw(self):
 		pyxel.cls(0)
 		pyxel.bltm(0,0,0,0,0,400,300)
@@ -47,10 +52,12 @@ class Jeu:
 		pyxel.text(350,0,f"score: {self.score}", 7)
 		for i in range(self.vies):
 			pyxel.blt(20 + 12*i,0,0,1,74,12,12, 0)
-		if self.vies < 0:
-			pyxel.rect(0,0,400,300,0)
+		if self.vies == 0:
+			pyxel.cls(0)
 			pyxel.text(180,151,f"GAME OVER", 1)
 			pyxel.text(179, 150, f"GAME OVER", 8)
-			pyxel.text(179,181,f"score: {self.score}", 1)
-			pyxel.text(178,180,f"score: {self.score}", 7)
+			pyxel.text(179,171,f"score: {self.score}", 1)
+			pyxel.text(178,170,f"score: {self.score}", 7)
+			pyxel.text(161,191, f"cliquez pour rejouer", 1)
+			pyxel.text(160, 190, f"cliquez pour rejouer", 7)
 Jeu().init()

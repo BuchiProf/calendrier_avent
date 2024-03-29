@@ -17,9 +17,7 @@ class PenduGame:
         self.essais_restants = self.max_essais
         self.win = False
         self.lettres_saisies = [""]
-        #print('argument list', sys.argv)
 
-        # Initialize Pyxel
         pyxel.init(90,90, title="pendu")
         pyxel.load("pendu.pyxres")
         pyxel.run(self.update, self.draw)
@@ -27,7 +25,7 @@ class PenduGame:
     def update(self):
         if pyxel.btnp(pyxel.KEY_ESCAPE):
             pyxel.quit()
-        if self.essais_restants > 0:
+        if self.essais_restants > 0 and self.win == False:
             self.draw()
             lettre = ""
             
@@ -88,14 +86,26 @@ class PenduGame:
                 self.complete(lettre)
                 self.lettres_saisies.append(lettre)
             else:
-                self.lettres_saisies.append(lettre)        
+                self.lettres_saisies.append(lettre)
+        else:
+            if pyxel.btnp(pyxel.KEY_SPACE):
+                self.mot_secret = random.choice(self.mots).upper()
+                self.essais = []
+                self.tirets = ["_"] * len(self.mot_secret)
+                for i in range(len(self.mot_secret)):
+                    if self.mot_secret[i] == " ":         #au cas où y'a un espace dane le mot
+                        self.tirets[i] = " "
+                self.max_essais = 6
+                self.essais_restants = self.max_essais
+                self.win = False
+                self.lettres_saisies = [""]
     
     def complete(self, lettre):
         lettre_juste = False
         self.win = True
         for x in range(len(self.mot_secret)):
             if lettre == self.mot_secret[x]: 
-                self.tirets[x] = lettre #problème ici !
+                self.tirets[x] = lettre
                 lettre_juste = True
             if self.tirets[x] == '_':
                 self.win = False
@@ -123,6 +133,7 @@ class PenduGame:
             pyxel.blt(30,17,0,0,0,32,32, 0)
             pyxel.text(38,61,f"WIN", 1)
             pyxel.text(37, 60, f"WIN", 10)
+            pyxel.text(8,5,f"espace pour rejouer",7)
         elif self.essais_restants == 6:
             pyxel.blt(30,17,1,0,0,32,32)
         elif self.essais_restants == 5:
@@ -140,6 +151,6 @@ class PenduGame:
             pyxel.blt(30,17,2,0,0,32,32)
             pyxel.text(28,61,f"GAME OVER", 1)
             pyxel.text(27, 60, f"GAME OVER", 8)
-            pyxel.text(5,80,f"le mot etait: {self.mot_secret}",7)
-
+            pyxel.text(0,80,f"le mot etait: {self.mot_secret}",7)
+            pyxel.text(8,5,f"espace pour rejouer",7)
 PenduGame().init()

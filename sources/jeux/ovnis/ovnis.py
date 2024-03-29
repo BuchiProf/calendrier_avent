@@ -152,33 +152,44 @@ class Jeu:
     # =====================================================
     def update(self):
         """mise à jour des variables (30 fois par seconde)"""
+        if self.vies > 0:
+            # deplacement du vaisseau
+            self.deplacement()
 
-        # deplacement du vaisseau
-        self.deplacement()
+            # creation des tirs en fonction de la position du vaisseau
+            self.tirs_creation()
 
-        # creation des tirs en fonction de la position du vaisseau
-        self.tirs_creation()
+            # mise a jour des positions des tirs
+            self.tirs_deplacement()
 
-        # mise a jour des positions des tirs
-        self.tirs_deplacement()
+            # creation des ennemis
+            self.ennemis_creation()
+            self.ennemisA_creation()
 
-        # creation des ennemis
-        self.ennemis_creation()
-        self.ennemisA_creation()
+            # mise a jour des positions des ennemis
+            self.ennemis_deplacement()
+            self.ennemisA_deplacement()
 
-        # mise a jour des positions des ennemis
-        self.ennemis_deplacement()
-        self.ennemisA_deplacement()
+            # suppression des ennemis et tirs si contact
+            self.ennemis_suppression()
+            self.ennemisA_suppression()
 
-        # suppression des ennemis et tirs si contact
-        self.ennemis_suppression()
-        self.ennemisA_suppression()
+            # suppression du vaisseau et ennemi si contact
+            self.vaisseau_suppression()
 
-        # suppression du vaisseau et ennemi si contact
-        self.vaisseau_suppression()
-
-        # evolution de l'animation des explosions
-        self.explosions_animation()
+            # evolution de l'animation des explosions
+            self.explosions_animation()
+        else:
+            if pyxel.btnp(pyxel.KEY_SPACE) or pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+                self.vaisseau_x = 60
+                self.vaisseau_y = 60
+                self.vies = 4
+                self.tirs_liste = []
+                self.ennemis_liste = []
+                self.ennemisA_liste = []
+                self.score = 0
+                self.explosions_liste = []
+        
 
 
     # =====================================================
@@ -217,7 +228,8 @@ class Jeu:
 
         # sinon: GAME OVER
         else:
-
-            pyxel.text(50,64, 'GAME OVER', 7)
-            pyxel.text(50,80, 'SCORE:'+ str(self.score), 7)
+            pyxel.text(51,61,f"GAME OVER", 1)
+            pyxel.text(50, 60, f"GAME OVER", 8)
+            pyxel.text(50,75, 'Score:'+ str(self.score), 7)
+            pyxel.text(25, 90, 'Cliquez pour rejouer', 7)
 Jeu()

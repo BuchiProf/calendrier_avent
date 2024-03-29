@@ -18,34 +18,42 @@ class jeu:
         
         
     def update(self):
+        if self.game_over == False:
 
-        if pyxel.frame_count % 7 == 0:
-            head = [self.snake[0][0] + self.direction[0],
-                    self.snake[0][1] + self.direction[1]]
-            self.snake.insert(0, head)
+            if pyxel.frame_count % 7 == 0:
+                head = [self.snake[0][0] + self.direction[0],
+                        self.snake[0][1] + self.direction[1]]
+                self.snake.insert(0, head)
             
             
-            if head in self.snake[1:] or head[0] < 0 or head[0] > WIDTH/CASE - 1 or head[1] < 0 or head[1] > WIDTH/CASE - 1:
-                self.game_over = True                                 #revoir le code
+                if head in self.snake[1:] or head[0] < 0 or head[0] > WIDTH/CASE - 1 or head[1] < 0 or head[1] > WIDTH/CASE - 1:
+                    self.game_over = True                                 #revoir le code
                 
-            if head == self.nouriture:
-                self.score += 1
-                while self.nouriture in self.snake:
-                    self.nouriture = [random.randint(0, WIDTH/CASE-1),
-                            random.randint(0, HEIGHT/CASE-1)]
-            else: 
-                self.snake.pop()
+                if head == self.nouriture:
+                    self.score += 1
+                    while self.nouriture in self.snake:
+                        self.nouriture = [random.randint(0, WIDTH/CASE-1),
+                                random.randint(0, HEIGHT/CASE-1)]
+                else: 
+                    self.snake.pop()
             
-        if pyxel.btnp(pyxel.KEY_ESCAPE):
-            pyxel.quit()
-        elif (pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT)) and self.direction[0] != -1:
-            self.direction = [1, 0]
-        elif (pyxel.btnp(pyxel.KEY_LEFT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_LEFT)) and self.direction[0] != 1:
-            self.direction = [-1, 0]
-        elif (pyxel.btnp(pyxel.KEY_UP) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_UP)) and self.direction[1] != 1:
-            self.direction = [0, -1]
-        elif (pyxel.btnp(pyxel.KEY_DOWN) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_DOWN)) and self.direction[1] != -1:
-            self.direction = [0, 1]
+            if pyxel.btnp(pyxel.KEY_ESCAPE):
+                pyxel.quit()
+            elif (pyxel.btnp(pyxel.KEY_RIGHT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_RIGHT)) and self.direction[0] != -1:
+                self.direction = [1, 0]
+            elif (pyxel.btnp(pyxel.KEY_LEFT) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_LEFT)) and self.direction[0] != 1:
+                self.direction = [-1, 0]
+            elif (pyxel.btnp(pyxel.KEY_UP) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_UP)) and self.direction[1] != 1:
+                self.direction = [0, -1]
+            elif (pyxel.btnp(pyxel.KEY_DOWN) or pyxel.btnp(pyxel.GAMEPAD1_BUTTON_DPAD_DOWN)) and self.direction[1] != -1:
+                self.direction = [0, 1]
+        else:
+            if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+                self.game_over = False
+                self.snake =[[1, 3]]
+                self.direction = [1, 0]
+                self.score = 0
+                self.nouriture = [random.randint(0, WIDTH/CASE-1),random.randint(0, HEIGHT/CASE-1)]
 
         
     
@@ -76,6 +84,7 @@ class jeu:
             pyxel.text(85,80,f"GAME OVER", 1)
             pyxel.text(84, 79, f"GAME OVER", 8)
             pyxel.text(83,100,f"score : {self.score}", 7)
+            pyxel.text(65, 120, f"cliquez pour rejouer", 7)
         
         
 jeu().init()

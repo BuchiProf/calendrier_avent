@@ -81,6 +81,8 @@ class Jeu:
         
     
     def update(self):
+        pyxel.camera(self.p_x-WIDTH/2 + 10,
+                    self.p_y-HEIGHT/2 )
         if self.gameover == False:
             self.deplacement()
             self.gravite()
@@ -88,10 +90,16 @@ class Jeu:
             self.tombe()
             self.test_fin()
             self.tir()
-            
-        
-        pyxel.camera(self.p_x-WIDTH/2 + 10,
-                    self.p_y-HEIGHT/2 )
+        else:
+            if pyxel.btnp(pyxel.KEY_SPACE) or pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+                self.gameover = False
+                self.p_x = 10
+                self.p_y = 10
+                self.tirs = []
+                self.grav = 1
+                self.en_saut = False
+                self.sens = 1
+                self.mort = 0
         
     def draw(self):
         pyxel.cls(0)
@@ -119,6 +127,8 @@ class Jeu:
             pyxel.text(self.p_x - 5, self.p_y - 5, "VICTOIRE", 10)
             pyxel.text(self.p_x - 19,self.p_y - 29,f"nombre de morts: {self.mort}", 1)
             pyxel.text(self.p_x - 20,self.p_y - 30,f"nombre de morts: {self.mort}", 7)
+            pyxel.text(self.p_x - 22, self.p_y - 49,f"cliquez pour rejouer", 1)
+            pyxel.text(self.p_x - 23, self.p_y - 50,f"cliquez pour rejouer", 7)
 
         
 Jeu()

@@ -229,6 +229,7 @@ class Jeu:
         pyxel.mouse(not MOBILE) # affiche la souris si la partie est joué sur un PC
         pyxel.load("demineur.pyxres")
         self.termine = False # vaut True lorque la partie est terminée
+        self.win = False
         
         pyxel.run(self.update, self.draw)
         
@@ -244,6 +245,7 @@ class Jeu:
             elif a == 2:
                 self.termine = True
                 print("gagné") # à modifier pour gérer la victoire dans l'application flask
+                self.win = True
         else:
             if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
                 self.termine=False
@@ -260,6 +262,11 @@ class Jeu:
         pyxel.cls(0)
 
         self.grille.afficher()
+        if self.termine== True and self.win == True:
+            pyxel.cls(0)
+            pyxel.text(51,61,f"You Win !",1)
+            pyxel.text(50,60,f"You Win !",10)
+            pyxel.text(25,70, f"cliquez pour rejouer",7)
 
 Jeu()
 
